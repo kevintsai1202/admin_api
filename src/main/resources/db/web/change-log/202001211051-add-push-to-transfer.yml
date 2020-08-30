@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+        id: 202001211051
+        author: lj
+        changes:
+          - addColumn:
+              tableName: transfer_info
+              columns:
+                - column:
+                    name: push
+                    type: int(8)
+                    remarks: 今日推送人数
+                    defaultValue: 0

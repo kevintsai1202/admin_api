@@ -1,0 +1,64 @@
+databaseChangeLog:
+  - changeSet:
+      id: 201912051403
+      author: lj
+      changes:
+        - createTable:
+            tableName: order
+            remarks: 订单
+            columns:
+              - column:
+                  name: order_no
+                  type: varchar(255)
+                  remarks: 订单编号
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: order_type
+                  type: tinyint
+                  remarks: 订单类型(置顶/推广)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: order_status
+                  type: tinyint
+                  remarks: 订单状态
+                  constraints:
+                    nullable: false
+              - column:
+                  name: order_amount
+                  type: int(11)
+                  remarks: 订单金额
+                  constraints:
+                    nullable: false
+              - column:
+                  name: transfer_id
+                  type: int(11)
+                  remarks: 转让信息ID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: stick_day
+                  type: int(4)
+                  remarks: 置顶天数
+              - column:
+                  name: user_id
+                  type: int(11)
+                  remarks: 用户ID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: payed_at
+                  type: timestamp
+                  remarks: 支付时间
+              - column:
+                  name: created_at
+                  type: timestamp
+                  remarks: 创建时间
+                  defaultValueDate: now()
+              - column:
+                  name: updated_at
+                  type: timestamp
+                  remarks: 更新时间
+                  defaultValueDate: now()

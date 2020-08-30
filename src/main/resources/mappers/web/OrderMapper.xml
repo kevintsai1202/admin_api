@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xypsp.admin.domain.mapper.web.OrderMapper">
+
+    <resultMap id="ordersResultMap" type="OrderDTO">
+        <result column="order_no" property="orderNo"/>
+        <result column="order_type" property="orderType"/>
+        <result column="order_status" property="orderStatus"/>
+        <result column="order_amount" property="orderAmount"/>
+        <result column="transfer_id" property="transferId"/>
+        <result column="stick_day" property="stickDay"/>
+        <result column="user_id" property="userId"/>
+        <result column="payed_at" property="payedAt"/>
+        <result column="avatar" property="avatar"/>
+        <result column="nickname" property="nickname"/>
+    </resultMap>
+
+    <select id="countSales" resultType="java.lang.Long">
+        SELECT
+            IFNULL( sum( order_amount ), 0 )
+        FROM
+            `order`
+        WHERE
+            order_status = 1
+    </select>
+
+    <select id="findByOrders" resultMap="ordersResultMap">
+        SELECT
+            o.*,
+            u.avatar,
+            u.nickname
+        FROM
+            `order` AS o
+            LEFT JOIN `user` AS u ON o.user_id = u.id
+        WHERE order_status = 1
+    </select>
+
+    <select id="findByOrdersLike" resultMap="ordersResultMap">
+        SELECT
+            o.*,
+            u.avatar,
+            u.nickname
+        FROM
+            `order` AS o
+            LEFT JOIN `user` AS u ON o.user_id = u.id
+        WHERE
+            order_amount LIKE CONCAT( CONCAT( '%', #{search} ), '%' )
+            OR stick_day LIKE CONCAT( CONCAT( '%', #{search} ), '%' )
+            OR nickname LIKE CONCAT( CONCAT( '%', #{search} ), '%' )
+        AND order_status = 1
+    </select>
+
+
+    <select id="findByTransferIdAndOrderType" resultMap="ordersResultMap">
+        SELECT
+            o.*,
+            u.avatar,
+            u.nickname
+        FROM
+            `order` AS o
+            LEFT JOIN `user` AS u ON o.user_id = u.id
+        WHERE order_status = 1
+        and    order_type = 1
+        and  transfer_id = #{transferId}
+        LIMIT 1
+    </select>
+
+</mapper>

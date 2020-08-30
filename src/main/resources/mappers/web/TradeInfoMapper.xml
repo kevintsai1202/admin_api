@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xypsp.admin.domain.mapper.web.TradeInfoMapper">
+
+    <resultMap id="tradeInfoResultMap" type="com.xypsp.admin.domain.model.web.TradeInfoDTO">
+        <result column="id" property="id"/>
+        <result column="trade_name" property="tradeName"/>
+        <result column="is_active" property="isActive"/>
+        <result column="sort" property="sort"/>
+    </resultMap>
+
+    <select id="findByTradeInfos" resultMap="tradeInfoResultMap">
+        select * from trade_info
+    </select>
+
+    <update id="updateTradeInfo">
+        UPDATE trade_info
+        SET trade_name = #{tradeInfo.tradeName},
+            is_active = #{tradeInfo.isActive},
+            sort = #{tradeInfo.sort}
+        WHERE id = #{tradeInfo.id}
+    </update>
+
+    <select id="findByTradeName" resultMap="tradeInfoResultMap">
+        select * from trade_info where trade_name = #{tradeName}
+    </select>
+
+    <insert id="createTradeInfo" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        INSERT INTO trade_info (trade_name, is_active,sort)
+        VALUES (
+                #{tradeInfo.tradeName},
+                #{tradeInfo.isActive},
+                #{tradeInfo.sort}
+                )
+    </insert>
+
+    <delete id="deletes" parameterType = "java.util.List">
+        delete
+        from trade_info
+        where id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <update id="isActive">
+        UPDATE trade_info
+        SET is_active = !is_active
+        WHERE id = #{id}
+    </update>
+
+    <select id="findByTradeNameLike" resultMap="tradeInfoResultMap">
+        select * from trade_info where trade_name LIKE CONCAT(CONCAT('%', #{tradeName}), '%')
+    </select>
+</mapper>

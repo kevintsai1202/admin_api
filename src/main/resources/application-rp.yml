@@ -1,0 +1,42 @@
+spring:
+  datasource:
+    admin:
+      driver-class-name: com.mysql.jdbc.Driver
+      jdbc-url: jdbc:mysql://localhost:3306/xypsp_admin?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=GMT%2B8&allowMultiQueries=true
+      username: root
+      password: 123456
+      liquibase:
+        change-log: classpath:db/admin/changelog-master.yml
+    web:
+      username: root
+      password: 123456
+      jdbc-url: jdbc:mysql://localhost:3306/xypsp?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=GMT%2B8&allowMultiQueries=true
+      driver-class-name: com.mysql.jdbc.Driver
+      liquibase:
+        change-log: classpath:db/web/changelog-master.yaml
+qiniu:
+  accessKey: vB4dBXKZByT5******mfrDitjb-w8
+  secretKey: ser2PeRdL-e6y*****jLbHgJ1d94GDvEfS
+  bucket: xypsp
+  domain: https://qiniu.xypsp.com/
+server:
+  port: 8080
+  servlet:
+    context-path: /xypsp_admin
+logging:
+  level:
+    com:
+      xypsp:
+        admin:
+          domain:
+            mapper:
+              admin: DEBUG
+#logging:
+#  level:
+#    org:
+#      springframework:
+#        security: DEBUG
+wx:
+  op:
+    appId: wx029037ca8fb93155
+    appSecret: 2851d4143e9b86e8508c7da1d7cc908c

@@ -1,0 +1,51 @@
+databaseChangeLog:
+  - changeSet:
+      id: 201912061618
+      author: lj
+      changes:
+        - createTable:
+            tableName: banner
+            remarks: 轮播图
+            columns:
+              - column:
+                  name: id
+                  type: int(11)
+                  remarks: 轮播图id
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: url
+                  type: varchar(255)
+                  remarks: 图片链接
+                  constraints:
+                    nullable: false
+              - column:
+                  name: is_show
+                  type: boolean
+                  remarks: 是否展示
+                  defaultValueBoolean: true
+              - column:
+                  name: is_link
+                  type: boolean
+                  remarks: 是否有外链
+              - column:
+                  name: link_url
+                  type: varchar(255)
+                  remarks: 外链地址
+              - column:
+                  name: sort
+                  type: int(8)
+                  remarks: 排序
+                  defaultValue: 0
+              - column:
+                  name: created_at
+                  type: timestamp
+                  remarks: 创建时间
+                  defaultValueDate: now()
+              - column:
+                  name: updated_at
+                  type: timestamp
+                  remarks: 更新时间
+                  defaultValueDate: now()

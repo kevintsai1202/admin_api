@@ -1,0 +1,77 @@
+databaseChangeLog:
+  - changeSet:
+      id: 201912061709
+      author: lj
+      changes:
+        - createTable:
+            tableName: system_info
+            remarks: 系统信息
+            columns:
+              - column:
+                  name: id
+                  type: int(11)
+                  remarks: 记录id
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: seek_amount
+                  type: int(8)
+                  remarks: 今日找店人数
+                  constraints:
+                    nullable: false
+              - column:
+                  name: generalize_price
+                  type: int(8)
+                  remarks: 推广价格
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: timestamp
+                  remarks: 创建时间
+                  defaultValueDate: now()
+              - column:
+                  name: updated_at
+                  type: timestamp
+                  remarks: 更新时间
+                  defaultValueDate: now()
+  - changeSet:
+      id: 201912061712
+      author: lj
+      changes:
+        - createTable:
+            tableName: stick_info
+            remarks: 置顶信息
+            columns:
+              - column:
+                  name: id
+                  type: int(11)
+                  remarks: 记录id
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: stick_day
+                  type: int(4)
+                  remarks: 置顶天数
+                  constraints:
+                    nullable: false
+              - column:
+                  name: stick_price
+                  type: int(8)
+                  remarks: 置顶价格
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: timestamp
+                  remarks: 创建时间
+                  defaultValueDate: now()
+              - column:
+                  name: updated_at
+                  type: timestamp
+                  remarks: 更新时间
+                  defaultValueDate: now()

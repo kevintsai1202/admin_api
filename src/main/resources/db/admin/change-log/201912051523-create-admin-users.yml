@@ -1,0 +1,66 @@
+databaseChangeLog:
+  - changeSet:
+      id: 201912051523
+      author: admin
+      changes:
+        - createTable:
+            tableName: admin_users
+            remarks: 用户表
+            columns:
+              - column:
+                  name: id
+                  type: int(11)
+                  remarks: 主键
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: username
+                  type: varchar(255)
+                  remarks: 账号
+              - column:
+                  name: name
+                  type: varchar(255)
+                  remarks: 昵称
+              - column:
+                  name: avatar
+                  type: varchar(255)
+                  remarks: 头像
+              - column:
+                  name: open_id
+                  type: varchar(255)
+                  remarks: 微信用户openid
+              - column:
+                  name: phone
+                  type: varchar(255)
+                  remarks: 手机号
+              - column:
+                  name: role
+                  type: varchar(55)
+                  remarks: 角色多个角色可以使用夺标关联或者本字段用逗号分隔
+                  constraints:
+                    nullable: false
+              - column:
+                  name: password
+                  type: varchar(255)
+                  remarks: 用户密码
+                  constraints:
+                    nullable: false
+              - column:
+                  name: is_ban
+                  type: boolean
+                  remarks: 是否禁用
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: datetime
+                  remarks: 用户的创建时间
+                  defaultValueDate: now()
+              - column:
+                  name: updated_at
+                  type: datetime
+                  remarks: 用户的更新时间
+                  defaultValueDate: now()

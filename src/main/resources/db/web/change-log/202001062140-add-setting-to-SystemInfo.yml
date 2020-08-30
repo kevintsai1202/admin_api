@@ -1,0 +1,28 @@
+databaseChangeLog:
+  - changeSet:
+        id: 202001062140
+        author: rp
+        changes:
+          - addColumn:
+              tableName: system_info
+              columns:
+                - column:
+                    name: is_charge_publish
+                    type: boolean
+                    remarks: 发布是否收费
+                    constraints:
+                      nullable: false
+                - column:
+                    name: publish_money
+                    type: int(8)
+                    remarks: 发布费用
+          - addColumn:
+              tableName: transfer_info
+              columns:
+                - column:
+                    name: is_charge_publish
+                    type: boolean
+                    remarks: 是否已经缴费
+                    constraints:
+                      nullable: false
+                    defaultValue: false

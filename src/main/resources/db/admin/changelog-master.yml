@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - includeAll:
+      path: db/admin/change-log/
+
+#    includeAll 和 include 都可
+#databaseChangeLog:
+#  - include:
+#      file: db/admin/change-log/201912051523-create-admin-users.yml
+#  - include:
+#      file: db/admin/change-log/201912051533-create-role-and-permisson.yml
+#  - include:
+#      file: db/admin/change-log/201912132147-create-role-menu.yml

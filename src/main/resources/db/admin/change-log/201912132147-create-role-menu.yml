@@ -1,0 +1,54 @@
+databaseChangeLog:
+  - changeSet:
+      id: 201912132147
+      author: admin
+      changes:
+        - createTable:
+            tableName: role_menu
+            remarks: 权限菜单表
+            columns:
+              - column:
+                  name: id
+                  type: int(11)
+                  remarks: 主键
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: level
+                  type: int(3)
+                  remarks: 一级还是二级菜单(目录/菜单)
+                  defaultValue: 1
+              - column:
+                  name: sort
+                  type: int(11)
+                  remarks: 排序
+                  defaultValue: 0
+              - column:
+                  name: permission_id
+                  type: int(11)
+                  remarks: 权限Id
+                  constraints:
+                    nullable: false
+              - column:
+                  name: parent_id
+                  type: varchar(50)
+                  remarks: 父级ID
+              - column:
+                  name: key
+                  type: varchar(255)
+                  remarks: 组建页面
+              - column:
+                  name: name
+                  type: varchar(255)
+                  remarks: 名称
+              - column:
+                  name: icon
+                  type: varchar(255)
+                  remarks: 图标 设置该路由的图标
+              - column:
+                  name: created_at
+                  type: datetime
+                  remarks: 创建时间
+                  defaultValueDate: now()

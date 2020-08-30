@@ -1,0 +1,107 @@
+databaseChangeLog:
+  - changeSet:
+      id: 201912051523
+      author: admin
+      changes:
+        - createTable:
+            tableName: role
+            remarks: 角色表
+            columns:
+              - column:
+                  name: id
+                  type: int(11)
+                  remarks: 主键
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: role
+                  type: varchar(50)
+                  remarks: 角色
+                  constraints:
+                    nullable: false
+              - column:
+                  name: role_name
+                  type: varchar(50)
+                  remarks: 角色名称
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: permission
+            remarks: 权限表
+            columns:
+              - column:
+                  name: id
+                  type: int(11)
+                  remarks: 主键
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: permission
+                  type: varchar(50)
+                  remarks: 权限
+                  constraints:
+                    nullable: false
+              - column:
+                  name: permission_name
+                  type: varchar(50)
+                  remarks: 权限名称
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: role_permission
+            remarks: 角色权限表
+            columns:
+              - column:
+                  name: id
+                  type: int(11)
+                  remarks: 主键
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: role_id
+                  type: int(11)
+                  remarks: 角色ID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: permission_id
+                  type: varchar(50)
+                  remarks: 权限ID
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: user_role_permission
+            remarks: 用户角色权限表
+            columns:
+              - column:
+                  name: id
+                  type: int(11)
+                  remarks: 主键
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: int(11)
+                  remarks: 用户ID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: role_id
+                  type: int(11)
+                  remarks: 角色ID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: permission_id
+                  type: int(11)
+                  remarks: 权限ID
+                  constraints:
+                    nullable: false

@@ -1,0 +1,47 @@
+databaseChangeLog:
+  - changeSet:
+      id: 201912051414
+      author: lj
+      changes:
+        - createTable:
+            tableName: user
+            remarks: 用户表
+            columns:
+              - column:
+                  name: id
+                  type: int(11)
+                  remarks: 用户id
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: avatar
+                  type: varchar(255)
+                  remarks: 用户头像
+              - column:
+                  name: nickname
+                  type: varchar(10)
+                  remarks: 昵称
+              - column:
+                  name: union_id
+                  type: varchar(50)
+                  remarks: 用户微信unionId
+              - column:
+                  name: ser_open_id
+                  type: varchar(50)
+                  remarks: 用户微信服务号ID
+              - column:
+                  name: mini_open_id
+                  type: varchar(50)
+                  remarks: 用户微信小程序ID
+              - column:
+                  name: created_at
+                  type: timestamp
+                  remarks: 创建时间
+                  defaultValueDate: now()
+              - column:
+                  name: updated_at
+                  type: timestamp
+                  remarks: 更新时间
+                  defaultValueDate: now()

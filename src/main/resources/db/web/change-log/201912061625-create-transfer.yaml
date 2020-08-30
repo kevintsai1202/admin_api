@@ -1,0 +1,205 @@
+databaseChangeLog:
+  - changeSet:
+      id: 201912061625
+      author: lj
+      changes:
+        - createTable:
+            tableName: transfer_info
+            remarks: 店铺转让信息表
+            columns:
+              - column:
+                  name: id
+                  type: int(11)
+                  remarks: 转让id
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: icon
+                  type: varchar(255)
+                  remarks: 点图图标
+              - column:
+                  name: province
+                  type: varchar(255)
+                  remarks: 店铺所在省份
+              - column:
+                  name: city
+                  type: varchar(255)
+                  remarks: 店铺所在城市
+                  constraints:
+                    nullable: false
+              - column:
+                  name: district
+                  type: varchar(255)
+                  remarks: 店铺所在城市区域
+                  constraints:
+                    nullable: false
+              - column:
+                  name: trade_name
+                  type: varchar(255)
+                  remarks: 行业名称(类目名称)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: title
+                  type: varchar(255)
+                  remarks: 标题
+                  constraints:
+                    nullable: false
+              - column:
+                  name: area
+                  type: int(11)
+                  remarks: 面积
+                  defaultValue: 0
+              - column:
+                  name: transfer_price
+                  type: int(11)
+                  remarks: 转让费
+                  defaultValue: 0
+              - column:
+                  name: rent
+                  type: int(11)
+                  remarks: 租金
+                  defaultValue: 0
+              - column:
+                  name: linkman
+                  type: varchar(255)
+                  remarks: 联系人
+                  constraints:
+                    nullable: false
+              - column:
+                  name: phone
+                  type: varchar(64)
+                  remarks: 联系电话
+                  constraints:
+                    nullable: false
+              - column:
+                  name: address
+                  type: varchar(255)
+                  remarks: 店铺地址
+                  constraints:
+                    nullable: false
+              - column:
+                  name: is_stick
+                  type: boolean
+                  remarks: 是否置顶
+                  defaultValueBoolean: false
+              - column:
+                  name: stick_end_time
+                  type: timestamp
+                  remarks: 置顶结束时间
+              - column:
+                  name: is_generalize
+                  type: boolean
+                  remarks: 是否推广
+                  defaultValueBoolean: false
+              - column:
+                  name: generalize_end_time
+                  type: timestamp
+                  remarks: 推广结束时间
+              - column:
+                  name: expiry_time
+                  type: timestamp
+                  remarks: 到期时间
+              - column:
+                  name: user_id
+                  type: int(11)
+                  remarks: 发布人id
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: text
+                  remarks: 描述
+              - column:
+                  name: created_at
+                  type: timestamp
+                  remarks: 创建时间
+                  defaultValueDate: now()
+              - column:
+                  name: updated_at
+                  type: timestamp
+                  remarks: 更新时间
+                  defaultValueDate: now()
+  - changeSet:
+      id: 201912061650
+      author: lj
+      changes:
+        - createTable:
+            tableName: store_img
+            remarks: 店铺图片
+            columns:
+              - column:
+                  name: id
+                  type: int(11)
+                  remarks: 用户id
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: img_url
+                  type: varchar(255)
+                  remarks: 图片地址
+                  constraints:
+                    nullable: false
+              - column:
+                  name: transfer_id
+                  type: int(11)
+                  remarks: 转让信息id
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: timestamp
+                  remarks: 创建时间
+                  defaultValueDate: now()
+              - column:
+                  name: updated_at
+                  type: timestamp
+                  remarks: 更新时间
+                  defaultValueDate: now()
+  - changeSet:
+      id: 201912061653
+      author: lj
+      changes:
+        - createTable:
+            tableName: trade_info
+            remarks: 行业(类目)信息
+            columns:
+              - column:
+                  name: id
+                  type: int(11)
+                  remarks: 用户id
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: trade_name
+                  type: varchar(20)
+                  remarks: 行业名称(类目名称)
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: is_active
+                  type: boolean
+                  remarks: 是否启用
+                  defaultValueBoolean: true
+              - column:
+                  name: sort
+                  type: int(8)
+                  remarks: 排序
+                  defaultValue: 0
+              - column:
+                  name: created_at
+                  type: timestamp
+                  remarks: 创建时间
+                  defaultValueDate: now()
+              - column:
+                  name: updated_at
+                  type: timestamp
+                  remarks: 更新时间
+                  defaultValueDate: now()

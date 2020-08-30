@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xypsp.admin.domain.mapper.web.StoreImgMapper">
+
+    <resultMap id="storeImgResult" type="StoreImgDTO">
+        <id column="id" property="id" />
+        <result column="img_url" property="imgUrl" />
+        <result column="transfer_id" property="transferId" />
+    </resultMap>
+
+    <select id="findByTransferInfoId" resultMap="storeImgResult">
+      select * from store_img where transfer_id = #{transferId}
+    </select>
+
+    <insert id="createStoreImgs">
+        INSERT INTO store_img (img_url, transfer_id)
+        VALUES
+        <foreach collection="imgs" item="item" index="index" separator=",">
+            (#{item},#{transferId})
+        </foreach>
+    </insert>
+
+    <select id="findByTransferInfoIdsIn" parameterType="java.util.List" resultMap="storeImgResult">
+        select * from store_img where transfer_id in
+        <foreach collection="transferIds" item="transfer_id" open="(" separator="," close=")">
+            #{transfer_id}
+        </foreach>
+    </select>
+
+    <delete id="deletes" parameterType="java.util.List">
+        delete
+        from store_img
+        where transfer_id in
+        <foreach collection="transferIds" item="transfer_id" open="(" separator="," close=")">
+            #{transfer_id}
+        </foreach>
+    </delete>
+
+    <select id="findById" resultMap="storeImgResult">
+        select * from store_img where id = #{storeImgId}
+    </select>
+
+    <delete id="delete">
+        delete
+        from store_img
+        where id = #{id}
+    </delete>
+</mapper>

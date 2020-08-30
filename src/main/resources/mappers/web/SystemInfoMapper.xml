@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xypsp.admin.domain.mapper.web.SystemInfoMapper">
+
+    <resultMap id="systemInfoResultMap" type="com.xypsp.admin.domain.model.web.SystemInfoDTO">
+        <result column="id" property="id"/>
+        <result column="seek_amount" property="seekAmount"/>
+        <result column="generalize_price" property="generalizePrice"/>
+        <result column="is_charge_publish" property="isChargePublish"/>
+        <result column="publish_money" property="publishMoney"/>
+    </resultMap>
+
+    <select id="findSystemInfo" resultMap="systemInfoResultMap">
+        select * from system_info
+    </select>
+
+    <update id="updateSystemInfo">
+        UPDATE system_info
+        SET seek_amount = #{systemInfo.seekAmount},
+            generalize_price = #{systemInfo.generalizePrice},
+            is_charge_publish = #{systemInfo.isChargePublish},
+            publish_money = #{systemInfo.publishMoney}
+        WHERE id = #{systemInfo.id}
+    </update>
+
+    <delete id="delete">
+        delete
+        from system_info
+        where id = #{id}
+    </delete>
+
+    <insert id="createSystemInfo" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        INSERT INTO system_info (seek_amount, generalize_price,is_charge_publish,publish_money)
+        VALUES (
+                #{systemInfo.seekAmount},
+                #{systemInfo.generalizePrice},
+                #{systemInfo.isChargePublish},
+                #{systemInfo.publishMoney}
+                )
+    </insert>
+</mapper>

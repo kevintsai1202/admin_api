@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xypsp.admin.domain.mapper.web.TransferInfoMapper">
+
+    <resultMap id="transferInfosDetailResult" type="TransferInfoDTO">
+        <id column="id" property="id" />
+        <result column="icon" property="icon" />
+        <result column="province" property="province" />
+        <result column="city" property="city" />
+        <result column="district" property="district" />
+        <result column="trade_name" property="tradeName" />
+        <result column="title" property="title" />
+        <result column="area" property="area" />
+        <result column="transfer_price" property="transferPrice" />
+        <result column="rent" property="rent" />
+        <result column="linkman" property="linkman" />
+        <result column="phone" property="phone" />
+        <result column="address" property="address" />
+        <result column="is_stick" property="isStick" />
+        <result column="stick_end_time" property="stickEndTime" />
+        <result column="is_generalize" property="isGeneralize" />
+        <result column="generalize_end_time" property="generalizeEndTime" />
+        <result column="expiry_time" property="expiryTime" />
+        <result column="is_charge_publish" property="isChargePublish" />
+        <result column="description" property="description" />
+        <result column="user_id" property="userId" />
+        <result column="nickname" property="nickname" />
+        <result column="avatar" property="avatar" />
+        <result column="created_at" property="createdAt" />
+
+        <association property="order" column="{transferId = id}" javaType="com.xypsp.admin.domain.model.web.OrderDTO"
+                     select="com.xypsp.admin.domain.mapper.web.OrderMapper.findByTransferIdAndOrderType"/>
+
+        <collection property="storeImgS" column="{transferId = id}" ofType="StoreImgDTO" javaType="ArrayList"
+                    select="com.xypsp.admin.domain.mapper.web.StoreImgMapper.findByTransferInfoId"/>
+    </resultMap>
+
+    <select id="countTransferInfos" resultType="java.lang.Long">
+        SELECT
+            count( * )
+        FROM
+            transfer_info
+    </select>
+
+    <select id="countTransferInfosLikes" resultType="java.lang.Long">
+        SELECT
+            count( * )
+        FROM
+            transfer_info as ti
+            LEFT JOIN `user` AS u ON ti.user_id = u.id
+        where
+            city LIKE CONCAT( CONCAT( '%', #{search}, '%' ) )
+            OR district LIKE CONCAT( CONCAT( '%', #{search}, '%' ) )
+            OR trade_name LIKE CONCAT( CONCAT( '%', #{search}, '%' ) )
+            OR title LIKE CONCAT( CONCAT( '%', #{search}, '%' ) )
+            OR area LIKE CONCAT( CONCAT( '%', #{search}, '%' ) )
+            OR transfer_price LIKE CONCAT( CONCAT( '%',  #{search}, '%' ) )
+            OR rent LIKE CONCAT( CONCAT( '%', #{search}, '%' ) )
+            OR linkman LIKE CONCAT( CONCAT( '%', #{search}, '%' ) )
+            OR address LIKE CONCAT( CONCAT( '%', #{search}, '%' ) )
+            OR nickname LIKE CONCAT( CONCAT( '%', #{search}, '%' ) )
+            OR phone LIKE CONCAT( CONCAT( '%', #{search}, '%' ) )
+    </select>
+
+    <select id="findByTransferInfos" resultMap="transferInfosDetailResult">
+        SELECT
+            ti.id,
+            ti.icon,
+            ti.province,
+            ti.city,
+            ti.district,
+            ti.trade_name,
+            ti.title,
+            ti.area,
+            ti.transfer_price,
+            ti.rent,
+            ti.linkman,
+            ti.phone,
+            ti.address,
+            ti.stick_end_time,
+            ti.generalize_end_time,
+            ti.expiry_time,
+            ti.is_charge_publish,
+            ti.description,
+            ti.user_id,
+            ti.created_at,
+            IF(ti.is_stick, IF(ti.stick_end_time &gt;= now(), TRUE, FALSE), FALSE) as is_stick,
+            IF(ti.is_generalize, IF(ti.generalize_end_time &gt;= now(), TRUE, FALSE), FALSE) as is_generalize,
+            u.nickname,
+            u.avatar
+        FROM
+            transfer_info AS ti
+            LEFT JOIN `user` AS u ON ti.user_id = u.id
+        order by created_at desc
+    </select>
+
+    <select id="findByTransferInfosLikes" resultMap="transferInfosDetailResult">
+        SELECT
+            ti.id,
+            ti.icon,
+            ti.province,
+            ti.city,
+            ti.district,
+            ti.trade_name,
+            ti.title,
+            ti.area,
+            ti.transfer_price,
+            ti.rent,
+            ti.linkman,
+            ti.phone,
+            ti.address,
+            ti.stick_end_time,
+            ti.generalize_end_time,
+            ti.expiry_time,
+            ti.is_charge_publish,
+            ti.description,
+            ti.user_id,
+            ti.created_at,
+            IF(ti.is_stick, IF(ti.stick_end_time &gt;= now(), TRUE, FALSE), FALSE) as is_stick,
+            IF(ti.is_generalize, IF(ti.generalize_end_time &gt;= now(), TRUE, FALSE), FALSE) as is_generalize,
+            u.nickname,
+            u.avatar
+        FROM
+            transfer_info AS ti
+            LEFT JOIN `user` AS u ON ti.user_id = u.id
+        WHERE
+            city LIKE CONCAT( CONCAT( '%', #{search}, '%' ) )
+            OR district LIKE CONCAT( CONCAT( '%', #{search}, '%' ) )
+            OR trade_name LIKE CONCAT( CONCAT( '%', #{search}, '%' ) )
+            OR title LIKE CONCAT( CONCAT( '%', #{search}, '%' ) )
+            OR area LIKE CONCAT( CONCAT( '%', #{search}, '%' ) )
+            OR transfer_price LIKE CONCAT( CONCAT( '%',  #{search}, '%' ) )
+            OR rent LIKE CONCAT( CONCAT( '%', #{search}, '%' ) )
+            OR linkman LIKE CONCAT( CONCAT( '%', #{search}, '%' ) )
+            OR address LIKE CONCAT( CONCAT( '%', #{search}, '%' ) )
+            OR nickname LIKE CONCAT( CONCAT( '%', #{search}, '%' ) )
+            OR phone LIKE CONCAT( CONCAT( '%', #{search}, '%' ) )
+         order by created_at desc
+    </select>
+
+    <insert id="createTransferInfo" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        INSERT INTO transfer_info
+        (
+         icon,province,city,district,trade_name,title,
+         area,transfer_price,rent,linkman,
+         phone,address,expiry_time,description,
+         is_charge_publish,is_generalize,generalize_end_time,user_id
+        )
+        VALUES (
+                #{transferInfo.icon},#{transferInfo.province},#{transferInfo.city},#{transferInfo.district},#{transferInfo.tradeName},#{transferInfo.title},
+                #{transferInfo.area},#{transferInfo.transferPrice},#{transferInfo.rent},#{transferInfo.linkman},
+                #{transferInfo.phone},#{transferInfo.address},#{transferInfo.expiryTime},#{transferInfo.description},
+                1,1,#{transferInfo.generalizeEndTime},0
+                )
+    </insert>
+
+    <delete id="deletes" parameterType = "java.util.List">
+        delete
+        from transfer_info
+        where id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <update id="updateTransferInfo" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        UPDATE transfer_info
+        SET icon      = #{transferInfo.icon},
+            province  = #{transferInfo.province},
+            city      = #{transferInfo.city},
+            district  = #{transferInfo.district},
+            trade_name  = #{transferInfo.tradeName},
+            title     = #{transferInfo.title},
+            area      = #{transferInfo.area},
+            transfer_price  = #{transferInfo.transferPrice},
+            rent      = #{transferInfo.rent},
+            linkman   = #{transferInfo.linkman},
+            phone     = #{transferInfo.phone},
+            address   = #{transferInfo.address},
+            expiry_time  = #{transferInfo.expiryTime},
+            generalize_end_time  = #{transferInfo.generalizeEndTime},
+            description  = #{transferInfo.description}
+        WHERE id      = #{transferInfo.id}
+    </update>
+
+    <select id="findByTransferInfo" resultMap="transferInfosDetailResult">
+        SELECT
+            ti.id,
+            ti.icon,
+            ti.province,
+            ti.city,
+            ti.district,
+            ti.trade_name,
+            ti.title,
+            ti.area,
+            ti.transfer_price,
+            ti.rent,
+            ti.linkman,
+            ti.phone,
+            ti.address,
+            ti.stick_end_time,
+            ti.generalize_end_time,
+            ti.expiry_time,
+            ti.is_charge_publish,
+            ti.description,
+            ti.user_id,
+            ti.created_at,
+            IF(ti.is_stick, IF(ti.stick_end_time &gt;= now(), TRUE, FALSE), FALSE) as is_stick,
+            IF(ti.is_generalize, IF(ti.generalize_end_time &gt;= now(), TRUE, FALSE), FALSE) as is_generalize,
+            u.nickname,
+            u.avatar
+        FROM
+            transfer_info AS ti
+            LEFT JOIN `user` AS u ON ti.user_id = u.id
+        WHERE
+             ti.id = #{id}
+    </select>
+
+    <update id="updateStickDate">
+        UPDATE transfer_info
+        SET is_stick      = true ,
+            stick_end_time  = #{afterDate},
+            <if test="isGeneralize == null or !isGeneralize">
+                generalize_end_time  = #{afterDate},
+            </if>
+            is_generalize    = true
+        WHERE id   = #{transferId}
+    </update>
+
+    <select id="findPageByTransferInfos" resultMap="transferInfosDetailResult">
+        SELECT
+            ti.id,
+            ti.icon,
+            ti.province,
+            ti.city,
+            ti.district,
+            ti.trade_name,
+            ti.title,
+            ti.area,
+            ti.transfer_price,
+            ti.rent,
+            ti.linkman,
+            ti.phone,
+            ti.address,
+            ti.stick_end_time,
+            ti.generalize_end_time,
+            ti.expiry_time,
+            ti.is_charge_publish,
+            ti.description,
+            ti.user_id,
+            ti.created_at,
+        IF
+            ( ti.is_stick, IF ( ti.stick_end_time &gt;= now( ), TRUE, FALSE ), FALSE ) AS is_stick,
+        IF
+            ( ti.is_generalize, IF ( ti.generalize_end_time &gt;= now( ), TRUE, FALSE ), FALSE ) AS is_generalize,
+        u.nickname,
+        u.avatar
+        FROM
+            transfer_info AS ti
+            LEFT JOIN `user` AS u ON ti.user_id = u.id
+        WHERE
+            ti.id <![CDATA[ <= ]]> (SELECT id FROM transfer_info ORDER BY id DESC LIMIT #{startLimit},1)
+        ORDER BY ti.id DESC
+        LIMIT #{pageSize}
+    </select>
+
+    <select id="findPageByTransferInfosLikes" resultMap="transferInfosDetailResult">
+        SELECT
+            ti.id,
+            ti.icon,
+            ti.province,
+            ti.city,
+            ti.district,
+            ti.trade_name,
+            ti.title,
+            ti.area,
+            ti.transfer_price,
+            ti.rent,
+            ti.linkman,
+            ti.phone,
+            ti.address,
+            ti.stick_end_time,
+            ti.generalize_end_time,
+            ti.expiry_time,
+            ti.is_charge_publish,
+            ti.description,
+            ti.user_id,
+            ti.created_at,
+            IF(ti.is_stick, IF(ti.stick_end_time &gt;= now(), TRUE, FALSE), FALSE) as is_stick,
+            IF(ti.is_generalize, IF(ti.generalize_end_time &gt;= now(), TRUE, FALSE), FALSE) as is_generalize,
+            u.nickname,
+            u.avatar
+        FROM
+            transfer_info AS ti
+            LEFT JOIN `user` AS u ON ti.user_id = u.id
+        WHERE
+            city LIKE CONCAT( CONCAT( '%', #{search}, '%' ) )
+            OR district LIKE CONCAT( CONCAT( '%', #{search}, '%' ) )
+            OR trade_name LIKE CONCAT( CONCAT( '%', #{search}, '%' ) )
+            OR title LIKE CONCAT( CONCAT( '%', #{search}, '%' ) )
+            OR area LIKE CONCAT( CONCAT( '%', #{search}, '%' ) )
+            OR transfer_price LIKE CONCAT( CONCAT( '%',  #{search}, '%' ) )
+            OR rent LIKE CONCAT( CONCAT( '%', #{search}, '%' ) )
+            OR linkman LIKE CONCAT( CONCAT( '%', #{search}, '%' ) )
+            OR address LIKE CONCAT( CONCAT( '%', #{search}, '%' ) )
+            OR nickname LIKE CONCAT( CONCAT( '%', #{search}, '%' ) )
+            OR phone LIKE CONCAT( CONCAT( '%', #{search}, '%' ) )
+            order by created_at desc
+    </select>
+
+    <update id="switchIsGeneralize">
+        UPDATE transfer_info
+        SET
+        generalize_end_time  = #{afterDate},
+        is_generalize    = !is_generalize
+        WHERE id   = #{id}
+    </update>
+
+</mapper>

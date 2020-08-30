@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xypsp.admin.domain.mapper.web.BannerMapper">
+
+    <resultMap id="bannerResultMap" type="com.xypsp.admin.domain.model.web.BannerDTO">
+        <result column="id" property="id"/>
+        <result column="url" property="url"/>
+        <result column="is_link" property="isLink"/>
+        <result column="link_url" property="linkUrl"/>
+        <result column="is_show" property="isShow"/>
+        <result column="sort" property="sort"/>
+    </resultMap>
+
+    <!--创建-->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        INSERT INTO banner (url, is_show, is_link, link_url, sort)
+        VALUES (#{banner.url},
+                #{banner.isShow},
+                #{banner.isLink},
+                #{banner.linkUrl},
+                #{banner.sort});
+    </insert>
+
+
+    <!--删除-->
+    <delete id="delete">
+        delete
+        from banner
+        where id = #{id}
+    </delete>
+
+
+    <!--查询banners-->
+    <select id="findBanners" resultMap="bannerResultMap">
+        select id,url,is_link,link_url,sort,is_show
+        from banner
+        order by is_show desc ,sort desc
+    </select>
+
+    <!--通过ID查询-->
+    <select id="selectById" resultType="com.xypsp.admin.domain.model.web.BannerDTO">
+        select *
+        from banner
+        where id = #{id}
+        limit 1
+    </select>
+
+    <update id="update">
+        UPDATE banner
+        SET url      = #{banner.url},
+            is_show  = #{banner.isShow},
+            is_link  = #{banner.isLink},
+            link_url = #{banner.linkUrl},
+            sort     = #{banner.sort}
+        WHERE id = #{banner.id}
+    </update>
+    <update id="updateShowById">
+        UPDATE banner
+        SET is_show = !is_show
+        WHERE id = #{id};
+    </update>
+
+    <!--批量删除-->
+    <delete id="deletes" parameterType = "java.util.List">
+        delete
+        from banner
+        where id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!--根据ids查询-->
+    <select id="findBannersByIds" resultMap="bannerResultMap" parameterType="java.util.List">
+        select *
+        from banner
+        where id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+          #{id}
+        </foreach>
+    </select>
+
+</mapper>

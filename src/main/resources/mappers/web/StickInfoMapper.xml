@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xypsp.admin.domain.mapper.web.StickInfoMapper">
+
+    <resultMap id="stickInfoResultMap" type="com.xypsp.admin.domain.model.web.StickInfoDTO">
+        <result column="id" property="id"/>
+        <result column="stick_day" property="stickDay"/>
+        <result column="stick_price" property="stickPrice"/>
+    </resultMap>
+
+    <select id="findStickInfos" resultMap="stickInfoResultMap">
+        select * from stick_info
+    </select>
+
+    <update id="updateStickInfo">
+        UPDATE stick_info
+        SET stick_day = #{stickInfo.stickDay},
+            stick_price = #{stickInfo.stickPrice}
+        WHERE id = #{stickInfo.id}
+    </update>
+
+    <!--批量删除-->
+    <delete id="deletes" parameterType = "java.util.List">
+        delete
+        from stick_info
+        where id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <insert id="createStickInfo" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        INSERT INTO stick_info (stick_day, stick_price)
+        VALUES (
+                #{stickInfo.stickDay},
+                #{stickInfo.stickPrice}
+                )
+    </insert>
+
+    <select id="findByStickDay" resultMap="stickInfoResultMap">
+        select * from stick_info where stick_day = #{stickDay}
+    </select>
+</mapper>
